@@ -10,6 +10,9 @@ GET     /authors                    controllers.AuthorController.getAuthors()
 GET     /newCitation                controllers.CitationController.index()
 POST    /citation                   controllers.CitationController.addCitation()
 GET     /citations                  controllers.CitationController.getCitations()
+GET     /newSource                  controllers.SourceController.index()
+POST    /source                     controllers.SourceController.addSource()
+GET     /sources                    controllers.SourceController.getSources()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

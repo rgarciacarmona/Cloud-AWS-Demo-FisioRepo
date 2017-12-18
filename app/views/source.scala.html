@@ -1,0 +1,14 @@
+@()
+
+@main("Welcome to Play") {
+<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+
+<ul id="sources"></ul>
+
+<form method="POST" action="@routes.SourceController.addSource()">
+    @helper.CSRF.formField
+    Name: <input type="text" name="name"/><br />
+    ISSN: <input number="text" name="ISSN"/><br />
+    <button>Add Source</button>
+</form>
+}
