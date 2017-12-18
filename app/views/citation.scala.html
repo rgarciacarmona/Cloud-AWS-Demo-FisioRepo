@@ -1,0 +1,17 @@
+@()
+
+@main("Welcome to Play") {
+<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+
+<ul id="citations"></ul>
+
+<form method="POST" action="@routes.CitationController.addCitation()">
+    @helper.CSRF.formField
+    Author: <input type="text" name="author"/><br />
+    Year: <input number="text" name="year"/><br />
+    Name: <input type="text" name="name"/><br />
+    Volume: <input number="text" name="volume"/><br />
+    Pages: <input number="text" name="page"/><br />
+    <button>Add Citation</button>
+</form>
+}

@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.AuthorController.index()
+GET     /newAuthor                  controllers.AuthorController.index()
+POST    /author                     controllers.AuthorController.addAuthor()
+GET     /authors                    controllers.AuthorController.getAuthors()
+GET     /newCitation                controllers.CitationController.index()
+POST    /citation                   controllers.CitationController.addCitation()
+GET     /citations                  controllers.CitationController.getCitations()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
