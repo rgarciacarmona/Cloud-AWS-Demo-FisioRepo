@@ -4,14 +4,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Source {
+public class Keyword {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
     public String name;
-    public String ISSN;
-    @OneToMany(mappedBy="source", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy="keywords", fetch=FetchType.EAGER)
     public List<Publication> publications;
 }

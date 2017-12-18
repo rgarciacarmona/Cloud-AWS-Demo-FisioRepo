@@ -1,0 +1,13 @@
+@()
+
+@main("Welcome to Play") {
+<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+
+<ul id="keywords"></ul>
+
+<form method="POST" action="@routes.KeywordController.addKeyword()">
+    @helper.CSRF.formField
+    Name: <input type="text" name="name"/><br />
+    <button>Add Keyword</button>
+</form>
+}

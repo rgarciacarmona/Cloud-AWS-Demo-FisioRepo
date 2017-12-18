@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Citation {
@@ -14,5 +15,7 @@ public class Citation {
     public String name;
     public Integer volume;
     public Integer page;
+    @ManyToMany(mappedBy="citations", fetch=FetchType.EAGER)
+    public List<Publication> publications;
 
 }
