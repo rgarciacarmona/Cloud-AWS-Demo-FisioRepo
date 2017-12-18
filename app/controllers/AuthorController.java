@@ -32,7 +32,7 @@ public class AuthorController extends Controller {
     }
 
     public Result index() {
-        return ok(views.html.index.render());
+        return ok(views.html.author.render());
     }
 
     public CompletionStage<Result> addAuthor() {

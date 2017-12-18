@@ -1,4 +1,4 @@
 $ ->
-  $.get "/authors", (authors) ->
-    $.each authors, (index, author) ->
-      $("#authors").append $("<li>").text author.shortName
+  $.get "/fullPublications", (fullPublications) ->
+    $.each fullPublications, (index, fullPublication) ->
+      $("#fullPublications").append $("<li>").text fullPublication.title

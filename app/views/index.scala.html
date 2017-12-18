@@ -3,13 +3,27 @@
 @main("Welcome to Play") {
 <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 
-<ul id="authors"></ul>
+<ul id="fullPublications"></ul>
 
-<form method="POST" action="@routes.AuthorController.addAuthor()">
+<form method="POST" action="@routes.FullPublicationController.addFullPublication()">
     @helper.CSRF.formField
-    Short Name: <input type="text" name="shortName"/><br />
-    Full Name: <input type="text" name="fullName"/><br />
-    Affiliation: <input type="text" name="affiliation"/><br />
-    <button>Add Author</button>
+    Publication type: <input type="text" name="pubType"/><br />
+    Authors' short names: <input type="text" name="authorsShort"/><br />
+    Authors' long names: <input type="text" name="authorsLong"/><br />
+    Title: <input type="text" name="title"/><br />
+    Source name: <input type="text" name="sourceName"/><br />
+    Language: <input type="text" name="language"/><br />
+    Document type: <input type="text" name="docType"/><br />
+    Keywords: <input type="text" name="keywords"/><br />
+    Abstract: <input type="text" name="docAbstract"/><br />
+    Authors' affiliations: <input type="text" name="authorsAffiliation"/><br />
+    References: <input type="text" name="references"/><br />
+    ISSN: <input type="text" name="ISSN"/><br />
+    Source Year: <input type="number" name="year"/><br />
+    Source Volume: <input type="number" name="volume"/><br />
+    Source Start page: <input type="number" name="startPage"/><br />
+    Source End page: <input type="number" name="endPage"/><br />
+    Source Pages: <input type="number" name="pages"/><br />
+    <button>Add Publication</button>
 </form>
 }

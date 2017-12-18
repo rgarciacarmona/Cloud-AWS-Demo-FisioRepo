@@ -1,0 +1,15 @@
+@()
+
+@main("Welcome to Play") {
+<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+
+<ul id="authors"></ul>
+
+<form method="POST" action="@routes.AuthorController.addAuthor()">
+    @helper.CSRF.formField
+    Short Name: <input type="text" name="shortName"/><br />
+    Full Name: <input type="text" name="fullName"/><br />
+    Affiliation: <input type="text" name="affiliation"/><br />
+    <button>Add Author</button>
+</form>
+}

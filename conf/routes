@@ -3,7 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.AuthorController.index()
+GET     /                           controllers.FullPublicationController.index()
+GET     /newFullPublication         controllers.FullPublicationController.index()
+POST    /fullPublication            controllers.FullPublicationController.addFullPublication()
+GET     /fullPublications           controllers.FullPublicationController.getFullPublications()
+GET     /fullPublication            controllers.FullPublicationController.searchFullPublications(keyword: String)
 GET     /newAuthor                  controllers.AuthorController.index()
 POST    /author                     controllers.AuthorController.addAuthor()
 GET     /authors                    controllers.AuthorController.getAuthors()
