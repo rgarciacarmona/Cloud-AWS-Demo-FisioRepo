@@ -8,10 +8,10 @@
 <form method="POST" action="@routes.CitationController.addCitation()">
     @helper.CSRF.formField
     Author: <input type="text" name="author"/><br />
-    Year: <input number="text" name="year"/><br />
+    Year: <input type="number" name="year"/><br />
     Name: <input type="text" name="name"/><br />
-    Volume: <input number="text" name="volume"/><br />
-    Pages: <input number="text" name="page"/><br />
+    Volume: <input type="number" name="volume"/><br />
+    Page: <input type="number" name="page"/><br />
     <button>Add Citation</button>
 </form>
 }

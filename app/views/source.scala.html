@@ -8,7 +8,7 @@
 <form method="POST" action="@routes.SourceController.addSource()">
     @helper.CSRF.formField
     Name: <input type="text" name="name"/><br />
-    ISSN: <input number="text" name="ISSN"/><br />
+    ISSN: <input type="text" name="ISSN"/><br />
     <button>Add Source</button>
 </form>
 }
