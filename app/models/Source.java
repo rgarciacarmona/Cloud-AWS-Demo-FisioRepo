@@ -12,6 +12,6 @@ public class Source {
 
     public String name;
     public String ISSN;
-    @OneToMany(mappedBy="source", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="source")
     public List<Publication> publications;
 }

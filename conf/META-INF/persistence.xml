@@ -6,9 +6,18 @@
     <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
+        <class>models.Author</class>
+        <class>models.Citation</class>
+        <class>models.Keyword</class>
+        <class>models.Publication</class>
+        <class>models.Source</class>
+        <class>models.FullPublication</class>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/> -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Solves the lazy loading problem -->
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>
 

@@ -13,6 +13,6 @@ public class Author {
     public String shortName;
     public String fullName;
     public String affiliation;
-    @ManyToMany(mappedBy="citations", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy="citations")
     public List<Publication> authors;
 }

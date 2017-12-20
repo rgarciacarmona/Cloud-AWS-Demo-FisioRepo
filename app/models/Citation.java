@@ -15,7 +15,7 @@ public class Citation {
     public String name;
     public Integer volume;
     public Integer page;
-    @ManyToMany(mappedBy="citations", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy="citations")
     public List<Publication> publications;
 
 }
