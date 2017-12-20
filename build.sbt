@@ -10,6 +10,7 @@ libraryDependencies += guice
 libraryDependencies += javaJpa
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
 libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.5.Final"
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.27"
 
 libraryDependencies += javaWs % "test"
 
