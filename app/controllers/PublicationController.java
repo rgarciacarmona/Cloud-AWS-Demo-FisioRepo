@@ -41,6 +41,12 @@ public class PublicationController extends Controller {
         }, ec.current());
     }
 
+    public CompletionStage<Result> getPublication(Long id) {
+        return publicationRepository.get(id).thenApplyAsync(publicationStream -> {
+            return ok(views.html.singlepublication.render(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
     public CompletionStage<Result> addPublication() {
         Publication publication = formFactory.form(Publication.class).bindFromRequest().get();
         return publicationRepository.add(publication).thenApplyAsync(p -> {

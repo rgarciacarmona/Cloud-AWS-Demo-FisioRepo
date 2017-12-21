@@ -17,5 +17,7 @@ public interface PublicationRepository {
 
     CompletionStage<Stream<Publication>> list();
 
+    CompletionStage<Stream<Publication>> get(Long id);
+
     CompletionStage<Stream<Publication>> searchByTitle(String title);
 }

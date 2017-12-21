@@ -43,6 +43,11 @@ public class JPAPublicationRepository implements PublicationRepository{
     }
 
     @Override
+    public CompletionStage<Stream<Publication>> get(Long id) {
+        return supplyAsync(() -> wrap(em -> get(em, id)), executionContext);
+    }
+
+    @Override
     public CompletionStage<Stream<Publication>> searchByTitle(String title) {
         return supplyAsync(() -> wrap(em -> searchByTitle(em, title)), executionContext);
     }
@@ -107,6 +112,11 @@ public class JPAPublicationRepository implements PublicationRepository{
 
     private Stream<Publication> list(EntityManager em) {
         List<Publication> publications = em.createQuery("select a from Publication a", Publication.class).getResultList();
+        return publications.stream();
+    }
+
+    private Stream<Publication> get(EntityManager em, Long id) {
+        List<Publication> publications = em.createQuery("select p from Publication p where id=" + id, Publication.class).getResultList();
         return publications.stream();
     }
 

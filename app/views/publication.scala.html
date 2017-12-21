@@ -5,22 +5,7 @@
 
 <ul id="publications">
     @for(publication <- publications) {
-    <li>@publication.title</li>
+    <li><a href="./publication/@publication.id">@publication.title</a></li>
     }
 </ul>
-
-<form method="POST" action="@routes.PublicationController.addPublication()">
-    @helper.CSRF.formField
-    Publication Type: <input type="text" name="pubType"/><br />
-    Title: <input type="text" name="title"/><br />
-    Language: <input type="text" name="language"/><br />
-    Document Type: <input type="text" name="docType"/><br />
-    Abstract: <input type="text" name="docAbstract"/><br />
-    Year: <input type="number" name="year"/><br />
-    Volume: <input type="number" name="volume"/><br />
-    Start Page: <input type="number" name="startPage"/><br />
-    End Page: <input type="number" name="endPage"/><br />
-    Pages: <input type="number" name="pages"/><br />
-    <button>Add Publication</button>
-</form>
 }
