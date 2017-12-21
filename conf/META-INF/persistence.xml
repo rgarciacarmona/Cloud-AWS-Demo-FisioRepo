@@ -11,7 +11,6 @@
         <class>models.Keyword</class>
         <class>models.Publication</class>
         <class>models.Source</class>
-        <class>models.FullPublication</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/> -->
