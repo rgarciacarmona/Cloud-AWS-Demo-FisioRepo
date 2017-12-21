@@ -1,11 +1,5 @@
-[<img src="https://img.shields.io/travis/playframework/play-java-jpa-example.svg"/>](https://travis-ci.org/playframework/play-java-jpa-example)
+# Fisio-repo
 
-# play-java-jpa-example
+This is a repository for physiotherapy papers. It's still a work in progress.
 
-This project demonstrates how to create a simple database application with Play, using JPA.
-
-Please see the Play documentation for more details:
-
-* https://www.playframework.com/documentation/latest/JavaJPA
-* https://www.playframework.com/documentation/latest/ThreadPools
-* https://www.playframework.com/documentation/latest/JavaAsync
+Uses the Play Framework, it is programmed in Java, persists the data using JPA in an Amazon RDS Instance and, with _sbt dist_, can be deployed in an Amazon Beanstalk Java instance.
