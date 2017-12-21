@@ -42,6 +42,11 @@ public class JPAPublicationRepository implements PublicationRepository{
         return supplyAsync(() -> wrap(em -> list(em)), executionContext);
     }
 
+    @Override
+    public CompletionStage<Stream<Publication>> searchByTitle(String title) {
+        return supplyAsync(() -> wrap(em -> searchByTitle(em, title)), executionContext);
+    }
+
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
     }
@@ -103,5 +108,10 @@ public class JPAPublicationRepository implements PublicationRepository{
     private Stream<Publication> list(EntityManager em) {
         List<Publication> publications = em.createQuery("select a from Publication a", Publication.class).getResultList();
         return publications.stream();
+    }
+
+    private Stream<Publication> searchByTitle(EntityManager em, String title) {
+        List<Publication> Publications = em.createQuery("select a from Publication a where a.title LIKE '%" + title + "%'", Publication.class).getResultList();
+        return Publications.stream();
     }
 }

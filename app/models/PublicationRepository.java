@@ -16,4 +16,6 @@ public interface PublicationRepository {
     CompletionStage<Publication> fullAdd(Publication publication);
 
     CompletionStage<Stream<Publication>> list();
+
+    CompletionStage<Stream<Publication>> searchByTitle(String title);
 }

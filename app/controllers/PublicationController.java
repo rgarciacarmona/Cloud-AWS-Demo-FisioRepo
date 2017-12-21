@@ -63,4 +63,10 @@ public class PublicationController extends Controller {
             return redirect(routes.PublicationController.getPublications());
         }, ec.current());
     }
+
+    public CompletionStage<Result> searchPublications(String title) {
+        return publicationRepository.searchByTitle(title).thenApplyAsync(publicationStream -> {
+            return ok(toJson(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
 }

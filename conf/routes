@@ -22,6 +22,7 @@ POST    /keyword                    controllers.KeywordController.addKeyword()
 GET     /keywords                   controllers.KeywordController.getKeywords()
 GET     /newPublication             controllers.PublicationController.index()
 POST    /publication                controllers.PublicationController.addPublication()
+GET     /publication                controllers.PublicationController.searchPublications(title: String)
 GET     /publications               controllers.PublicationController.getPublications()
 POST    /publicationJSON            controllers.PublicationController.addPublicationJson()
 
