@@ -13,5 +13,7 @@ public interface PublicationRepository {
 
     CompletionStage<Publication> add(Publication publication);
 
+    CompletionStage<Publication> fullAdd(Publication publication);
+
     CompletionStage<Stream<Publication>> list();
 }

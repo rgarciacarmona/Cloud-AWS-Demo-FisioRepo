@@ -1,9 +1,13 @@
 package models;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
     @Id
@@ -13,6 +17,7 @@ public class Author {
     public String shortName;
     public String fullName;
     public String affiliation;
-    @ManyToMany(mappedBy="citations")
-    public List<Publication> authors;
+    @ManyToMany(mappedBy="authors")
+    @JsonIgnore
+    public List<Publication> publications;
 }

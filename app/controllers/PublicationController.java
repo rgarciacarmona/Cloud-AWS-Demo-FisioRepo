@@ -1,15 +1,19 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Publication;
 import models.PublicationRepository;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 import static play.libs.Json.toJson;
 
@@ -31,8 +35,10 @@ public class PublicationController extends Controller {
         this.ec = ec;
     }
 
-    public Result index() {
-        return ok(views.html.publication.render());
+    public CompletionStage<Result> index() {
+        return publicationRepository.list().thenApplyAsync(publicationStream -> {
+            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
     }
 
     public CompletionStage<Result> addPublication() {
@@ -45,6 +51,16 @@ public class PublicationController extends Controller {
     public CompletionStage<Result> getPublications() {
         return publicationRepository.list().thenApplyAsync(publicationStream -> {
             return ok(toJson(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public CompletionStage<Result> addPublicationJson() {
+        JsonNode json = request().body().asJson();
+        // read the JsonNode as a Publication
+        Publication publication = Json.fromJson(json, Publication.class);
+        return publicationRepository.fullAdd(publication).thenApplyAsync(p -> {
+            return redirect(routes.PublicationController.getPublications());
         }, ec.current());
     }
 }

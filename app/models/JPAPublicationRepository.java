@@ -4,6 +4,8 @@ import play.db.jpa.JPAApi;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
@@ -26,8 +28,13 @@ public class JPAPublicationRepository implements PublicationRepository{
     }
 
     @Override
-    public CompletionStage<Publication> add(Publication Publication) {
-        return supplyAsync(() -> wrap(em -> insert(em, Publication)), executionContext);
+    public CompletionStage<Publication> add(Publication publication) {
+        return supplyAsync(() -> wrap(em -> insert(em, publication)), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Publication> fullAdd(Publication publication) {
+        return supplyAsync(() -> wrap(em -> fullInsert(em, publication)), executionContext);
     }
 
     @Override
@@ -39,13 +46,62 @@ public class JPAPublicationRepository implements PublicationRepository{
         return jpaApi.withTransaction(function);
     }
 
-    private Publication insert(EntityManager em, Publication Publication) {
-        em.persist(Publication);
-        return Publication;
+    private Publication insert(EntityManager em, Publication publication) {
+        em.persist(publication);
+        return publication;
+    }
+
+    private Publication fullInsert(EntityManager em, Publication publication) {
+        if (publication.authors != null)
+            for (Author author: publication.authors) {
+                try {
+                    Author existingAuthor = em.createQuery("select a from Author a where a.shortName='" + author.shortName + "' " +
+                            "and a.fullName='" + author.fullName + "' " +
+                            "and a.affiliation='" + author.affiliation + "'", Author.class).getSingleResult();
+                    author.id = existingAuthor.id;
+                } catch (javax.persistence.NoResultException e) {
+                    em.persist(author);
+                }
+            }
+        if (publication.citations != null) {
+            for (Citation citation: publication.citations) {
+                try {
+                    Citation existingCitation = em.createQuery("select c from Citation c where c.author='" + citation.author + "' " +
+                            "and c.year=" + citation.year + " " +
+                            "and c.name='" + citation.name + "' " +
+                            "and c.volume=" + citation.volume + " " +
+                            "and c.page=" + citation.page + "", Citation.class).getSingleResult();
+                    citation.id = existingCitation.id;
+                } catch (javax.persistence.NoResultException e) {
+                    em.persist(citation);
+                }
+            }
+        }
+        if (publication.keywords != null) {
+            for (Keyword keyword : publication.keywords) {
+                try {
+                    Keyword existingKeyword = em.createQuery("select k from Keyword k where k.name='" + keyword.name + "'", Keyword.class).getSingleResult();
+                    keyword.id = existingKeyword.id;
+                } catch (javax.persistence.NoResultException e) {
+                    em.persist(keyword);
+                }
+            }
+        }
+        if (publication.source != null) {
+            try {
+                Source existingSource = em.createQuery("select s from Source s where s.name='" + publication.source.name + "' " +
+                            "and s.ISSN='" + publication.source.ISSN + "'", Source.class).getSingleResult();
+                    publication.source.id = existingSource.id;
+                } catch (javax.persistence.NoResultException e) {
+                    em.persist(publication.source);
+                }
+        }
+        em.persist(publication);
+        return publication;
     }
 
     private Stream<Publication> list(EntityManager em) {
-        List<Publication> Publications = em.createQuery("select a from Publication a", Publication.class).getResultList();
-        return Publications.stream();
+        List<Publication> publications = em.createQuery("select a from Publication a", Publication.class).getResultList();
+        return publications.stream();
     }
 }
