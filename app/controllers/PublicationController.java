@@ -11,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -35,10 +36,8 @@ public class PublicationController extends Controller {
         this.ec = ec;
     }
 
-    public CompletionStage<Result> index() {
-        return publicationRepository.list().thenApplyAsync(publicationStream -> {
-            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
-        }, ec.current());
+    public Result index() {
+        return ok(views.html.publication.render(new ArrayList<Publication>()));
     }
 
     public CompletionStage<Result> getPublication(Long id) {
@@ -56,6 +55,12 @@ public class PublicationController extends Controller {
 
     public CompletionStage<Result> getPublications() {
         return publicationRepository.list().thenApplyAsync(publicationStream -> {
+            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> getPublicationsJson() {
+        return publicationRepository.list().thenApplyAsync(publicationStream -> {
             return ok(toJson(publicationStream.collect(Collectors.toList())));
         }, ec.current());
     }
@@ -72,7 +77,7 @@ public class PublicationController extends Controller {
 
     public CompletionStage<Result> searchPublications(String title) {
         return publicationRepository.searchByTitle(title).thenApplyAsync(publicationStream -> {
-            return ok(toJson(publicationStream.collect(Collectors.toList())));
+            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
         }, ec.current());
     }
 }

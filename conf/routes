@@ -21,6 +21,7 @@ POST    /publication                controllers.PublicationController.addPublica
 GET     /publication                controllers.PublicationController.searchPublications(title: String)
 GET     /publication/:id            controllers.PublicationController.getPublication(id: Long)
 GET     /publications               controllers.PublicationController.getPublications()
+GET     /publicationsJSON           controllers.PublicationController.getPublicationsJson()
 POST    /publicationJSON            controllers.PublicationController.addPublicationJson()
 
 # Map static resources from the /public folder to the /assets URL path
