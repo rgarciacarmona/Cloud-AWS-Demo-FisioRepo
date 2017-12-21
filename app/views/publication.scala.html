@@ -1,9 +1,13 @@
-@()
+@(publications: List[models.Publication])
 
-@main("Welcome to Play") {
+@main("Welcome to Fisio-Repo") {
 <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 
-<ul id="publications"></ul>
+<ul id="publications">
+    @for(publication <- publications) {
+    <li>@publication.title</li>
+    }
+</ul>
 
 <form method="POST" action="@routes.PublicationController.addPublication()">
     @helper.CSRF.formField
