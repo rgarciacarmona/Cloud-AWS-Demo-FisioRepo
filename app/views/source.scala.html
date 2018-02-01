@@ -3,8 +3,6 @@
 @main("Welcome to Fisio-Repo") {
 <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 
-<ul id="sources"></ul>
-
 <form method="POST" action="@routes.SourceController.addSource()">
     @helper.CSRF.formField
     Name: <input type="text" name="name"/><br />
