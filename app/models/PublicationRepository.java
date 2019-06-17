@@ -21,4 +21,10 @@ public interface PublicationRepository {
 
     CompletionStage<Publication> fullAdd(Publication publication);
 
+    CompletionStage<Publication> addAuthor(Long id, Long aid);
+
+    CompletionStage<Publication> addSource(Long id, Long sid);
+
+    CompletionStage<Publication> addKeyword(Long id, Long kid);
+
 }

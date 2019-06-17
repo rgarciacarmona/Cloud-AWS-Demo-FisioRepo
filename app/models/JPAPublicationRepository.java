@@ -53,6 +53,21 @@ public class JPAPublicationRepository implements PublicationRepository{
         return supplyAsync(() -> wrap(em -> fullInsert(em, publication)), executionContext);
     }
 
+    @Override
+    public CompletionStage<Publication> addAuthor(Long id, Long aid) {
+        return supplyAsync(() -> wrap(em -> author(em, id, aid)), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Publication> addSource(Long id, Long sid) {
+        return supplyAsync(() -> wrap(em -> source(em, id, sid)), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Publication> addKeyword(Long id, Long kid) {
+        return supplyAsync(() -> wrap(em -> keyword(em, id, kid)), executionContext);
+    }
+
     // JPA methods
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
@@ -112,5 +127,46 @@ public class JPAPublicationRepository implements PublicationRepository{
     private Stream<Publication> searchByTitle(EntityManager em, String title) {
         List<Publication> publications = em.createQuery("select p from Publication p where p.title LIKE '%" + title + "%'", Publication.class).getResultList();
         return publications.stream();
+    }
+
+    private Publication author(EntityManager em, Long id, Long aid) {
+        Publication pub = this.getPublication(em, id);
+        Author auth = this.getAuthor(em, aid);
+        pub.authors.add(auth);
+        auth.publications.add(pub);
+        return pub;
+    }
+
+    private Publication source(EntityManager em, Long id, Long sid) {
+        Publication pub = this.getPublication(em, id);
+        Source sour = this.getSource(em, sid);
+        pub.source = sour;
+        sour.publications.add(pub);
+        return pub;
+    }
+
+    private Publication keyword(EntityManager em, Long id, Long kid) {
+        Publication pub = this.getPublication(em, id);
+        Keyword key = this.getKeyword(em, kid);
+        pub.keywords.add(key);
+        key.publications.add(pub);
+        return pub;
+    }
+
+    // Helper methods for Mappings
+    private Publication getPublication(EntityManager em, Long id) {
+        return em.createQuery("select p from Publication p where id=" + id, Publication.class).getSingleResult();
+    }
+
+    private Author getAuthor(EntityManager em, Long aid) {
+        return em.createQuery("select a from Author a where id=" + aid, Author.class).getSingleResult();
+    }
+
+    private Source getSource(EntityManager em, Long sid) {
+        return em.createQuery("select s from Source s where id=" + sid, Source.class).getSingleResult();
+    }
+
+    private Keyword getKeyword(EntityManager em, Long kid) {
+        return em.createQuery("select k from Keyword k where id=" + kid, Keyword.class).getSingleResult();
     }
 }

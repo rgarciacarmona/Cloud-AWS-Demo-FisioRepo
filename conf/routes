@@ -38,5 +38,10 @@ GET     /publications               controllers.PublicationController.getPublica
 GET     /publicationsJSON           controllers.PublicationController.getPublicationsJson()
 POST    /publicationJSON            controllers.PublicationController.addPublicationJson()
 
+# Publication Mappings
+GET     /publication/:id/author/:aid       controllers.PublicationController.addAuthor(id: Long, aid:Long)
+GET     /publication/:id/source/:sid       controllers.PublicationController.addSource(id: Long, sid:Long)
+GET     /publication/:id/keyword/:kid      controllers.PublicationController.addKeyword(id: Long, kid:Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
