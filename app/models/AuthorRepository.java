@@ -14,4 +14,8 @@ public interface AuthorRepository {
     CompletionStage<Author> add(Author author);
 
     CompletionStage<Stream<Author>> list();
+
+    CompletionStage<Stream<Author>> get(Long id);
+
+    CompletionStage<Stream<Author>> searchByName(String name);
 }

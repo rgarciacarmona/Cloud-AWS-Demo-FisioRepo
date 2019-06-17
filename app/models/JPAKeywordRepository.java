@@ -25,6 +25,7 @@ public class JPAKeywordRepository implements KeywordRepository{
         this.executionContext = executionContext;
     }
 
+    // Implementation of Repository methods
     @Override
     public CompletionStage<Keyword> add(Keyword Keyword) {
         return supplyAsync(() -> wrap(em -> insert(em, Keyword)), executionContext);
@@ -35,6 +36,17 @@ public class JPAKeywordRepository implements KeywordRepository{
         return supplyAsync(() -> wrap(em -> list(em)), executionContext);
     }
 
+    @Override
+    public CompletionStage<Stream<Keyword>> get(Long id) {
+        return supplyAsync(() -> wrap(em -> get(em, id)), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Stream<Keyword>> searchByName(String name) {
+        return supplyAsync(() -> wrap(em -> searchByName(em, name)), executionContext);
+    }
+
+    // JPA methods
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
     }
@@ -45,7 +57,17 @@ public class JPAKeywordRepository implements KeywordRepository{
     }
 
     private Stream<Keyword> list(EntityManager em) {
-        List<Keyword> Keywords = em.createQuery("select a from Keyword a", Keyword.class).getResultList();
+        List<Keyword> Keywords = em.createQuery("select k from Keyword k", Keyword.class).getResultList();
         return Keywords.stream();
+    }
+
+    private Stream<Keyword> get(EntityManager em, Long id) {
+        List<Keyword> keywords = em.createQuery("select k from Keyword k where id=" + id, Keyword.class).getResultList();
+        return keywords.stream();
+    }
+
+    private Stream<Keyword> searchByName(EntityManager em, String name) {
+        List<Keyword> keywords = em.createQuery("select k from Keyword k where k.name LIKE '%" + name + "%'", Keyword.class).getResultList();
+        return keywords.stream();
     }
 }

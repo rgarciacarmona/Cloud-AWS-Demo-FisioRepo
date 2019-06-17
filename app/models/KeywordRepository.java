@@ -14,4 +14,8 @@ public interface KeywordRepository {
     CompletionStage<Keyword> add(Keyword keyword);
 
     CompletionStage<Stream<Keyword>> list();
+
+    CompletionStage<Stream<Keyword>> get(Long id);
+
+    CompletionStage<Stream<Keyword>> searchByName(String name);
 }

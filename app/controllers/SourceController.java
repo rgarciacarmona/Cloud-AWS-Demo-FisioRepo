@@ -35,6 +35,12 @@ public class SourceController extends Controller {
         return ok(views.html.source.render());
     }
 
+    public CompletionStage<Result> getSource(Long id) {
+        return sourceRepository.get(id).thenApplyAsync(sourceStream -> {
+            return ok(views.html.singlesource.render(sourceStream.collect(Collectors.toList()).get(0)));
+        }, ec.current());
+    }
+
     public CompletionStage<Result> addSource() {
         Source source = formFactory.form(Source.class).bindFromRequest().get();
         return sourceRepository.add(source).thenApplyAsync(p -> {
@@ -42,9 +48,21 @@ public class SourceController extends Controller {
         }, ec.current());
     }
 
-    public CompletionStage<Result> getSources() {
+    public CompletionStage<Result> getSourcesJson() {
         return sourceRepository.list().thenApplyAsync(sourceStream -> {
             return ok(toJson(sourceStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> getSources() {
+        return sourceRepository.list().thenApplyAsync(sourceStream -> {
+            return ok(views.html.listsources.render(sourceStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> searchSources(String name) {
+        return sourceRepository.searchByName(name).thenApplyAsync(sourceStream -> {
+            return ok(views.html.listsources.render(sourceStream.collect(Collectors.toList())));
         }, ec.current());
     }
 }

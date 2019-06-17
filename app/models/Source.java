@@ -17,7 +17,9 @@ public class Source {
     public Long id;
 
     public String name;
-    public String ISSN;
+    public String issn;
+
     @OneToMany(mappedBy="source")
+    @JsonIgnore
     public List<Publication> publications;
 }

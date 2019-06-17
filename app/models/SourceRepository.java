@@ -14,4 +14,8 @@ public interface SourceRepository {
     CompletionStage<Source> add(Source source);
 
     CompletionStage<Stream<Source>> list();
+
+    CompletionStage<Stream<Source>> get(Long id);
+
+    CompletionStage<Stream<Source>> searchByName(String name);
 }

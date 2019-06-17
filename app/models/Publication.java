@@ -18,24 +18,21 @@ public class Publication {
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
-    public String pubType;
-    @ManyToMany
-    public List<Author> authors;
     @Lob
     public String title;
-    @ManyToOne
-    public Source source;
     public String language;
     public String docType;
-    @ManyToMany
-    public List<Keyword> keywords;
     @Lob
     public String docAbstract;
-    @ManyToMany
-    public Set<Citation> citations;
     public Integer year;
     public Integer volume;
     public Integer startPage;
     public Integer endPage;
-    public Integer pages;
+
+    @ManyToMany
+    public List<Author> authors;
+    @ManyToMany
+    public List<Keyword> keywords;
+    @ManyToOne
+    public Source source;
 }

@@ -13,11 +13,12 @@ public interface PublicationRepository {
 
     CompletionStage<Publication> add(Publication publication);
 
-    CompletionStage<Publication> fullAdd(Publication publication);
-
     CompletionStage<Stream<Publication>> list();
 
     CompletionStage<Stream<Publication>> get(Long id);
 
     CompletionStage<Stream<Publication>> searchByTitle(String title);
+
+    CompletionStage<Publication> fullAdd(Publication publication);
+
 }

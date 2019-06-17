@@ -8,6 +8,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,12 @@ public class AuthorController extends Controller {
         return ok(views.html.author.render());
     }
 
+    public CompletionStage<Result> getAuthor(Long id) {
+        return authorRepository.get(id).thenApplyAsync(authorStream -> {
+            return ok(views.html.singleauthor.render(authorStream.collect(Collectors.toList()).get(0)));
+        }, ec.current());
+    }
+
     public CompletionStage<Result> addAuthor() {
         Author author = formFactory.form(Author.class).bindFromRequest().get();
         return authorRepository.add(author).thenApplyAsync(p -> {
@@ -42,9 +49,21 @@ public class AuthorController extends Controller {
         }, ec.current());
     }
 
-    public CompletionStage<Result> getAuthors() {
+    public CompletionStage<Result> getAuthorsJson() {
         return authorRepository.list().thenApplyAsync(authorStream -> {
             return ok(toJson(authorStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> getAuthors() {
+        return authorRepository.list().thenApplyAsync(authorStream -> {
+            return ok(views.html.listauthors.render(authorStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> searchAuthors(String name) {
+        return authorRepository.searchByName(name).thenApplyAsync(authorStream -> {
+            return ok(views.html.listauthors.render(authorStream.collect(Collectors.toList())));
         }, ec.current());
     }
 }

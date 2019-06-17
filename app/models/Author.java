@@ -14,9 +14,10 @@ public class Author {
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
-    public String shortName;
-    public String fullName;
+    public String name;
+    public String email;
     public String affiliation;
+
     @ManyToMany(mappedBy="authors")
     @JsonIgnore
     public List<Publication> publications;

@@ -25,6 +25,7 @@ public class JPASourceRepository implements SourceRepository{
         this.executionContext = executionContext;
     }
 
+    // Implementation of Repository methods
     @Override
     public CompletionStage<Source> add(Source Source) {
         return supplyAsync(() -> wrap(em -> insert(em, Source)), executionContext);
@@ -35,6 +36,17 @@ public class JPASourceRepository implements SourceRepository{
         return supplyAsync(() -> wrap(em -> list(em)), executionContext);
     }
 
+    @Override
+    public CompletionStage<Stream<Source>> get(Long id) {
+        return supplyAsync(() -> wrap(em -> get(em, id)), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Stream<Source>> searchByName(String name) {
+        return supplyAsync(() -> wrap(em -> searchByName(em, name)), executionContext);
+    }
+
+    // JPA methods
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
     }
@@ -45,7 +57,17 @@ public class JPASourceRepository implements SourceRepository{
     }
 
     private Stream<Source> list(EntityManager em) {
-        List<Source> Sources = em.createQuery("select a from Source a", Source.class).getResultList();
+        List<Source> Sources = em.createQuery("select s from Source s", Source.class).getResultList();
         return Sources.stream();
+    }
+
+    private Stream<Source> get(EntityManager em, Long id) {
+        List<Source> sources = em.createQuery("select s from Source s where id=" + id, Source.class).getResultList();
+        return sources.stream();
+    }
+
+    private Stream<Source> searchByName(EntityManager em, String name) {
+        List<Source> sources = em.createQuery("select s from Source s where s.name LIKE '%" + name + "%'", Source.class).getResultList();
+        return sources.stream();
     }
 }

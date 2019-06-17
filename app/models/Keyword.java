@@ -14,6 +14,7 @@ public class Keyword {
     public Long id;
 
     public String name;
+
     @ManyToMany(mappedBy="keywords")
     @JsonIgnore
     public List<Publication> publications;

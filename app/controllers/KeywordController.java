@@ -35,6 +35,12 @@ public class KeywordController extends Controller {
         return ok(views.html.keyword.render());
     }
 
+    public CompletionStage<Result> getKeyword(Long id) {
+        return keywordRepository.get(id).thenApplyAsync(keywordStream -> {
+            return ok(views.html.singlekeyword.render(keywordStream.collect(Collectors.toList()).get(0)));
+        }, ec.current());
+    }
+
     public CompletionStage<Result> addKeyword() {
         Keyword keyword = formFactory.form(Keyword.class).bindFromRequest().get();
         return keywordRepository.add(keyword).thenApplyAsync(p -> {
@@ -42,9 +48,21 @@ public class KeywordController extends Controller {
         }, ec.current());
     }
 
-    public CompletionStage<Result> getKeywords() {
+    public CompletionStage<Result> getKeywordsJson() {
         return keywordRepository.list().thenApplyAsync(keywordStream -> {
             return ok(toJson(keywordStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> getKeywords() {
+        return keywordRepository.list().thenApplyAsync(keywordStream -> {
+            return ok(views.html.listkeywords.render(keywordStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> searchKeywords(String name) {
+        return keywordRepository.searchByName(name).thenApplyAsync(keywordStream -> {
+            return ok(views.html.listkeywords.render(keywordStream.collect(Collectors.toList())));
         }, ec.current());
     }
 }

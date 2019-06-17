@@ -37,12 +37,12 @@ public class PublicationController extends Controller {
     }
 
     public Result index() {
-        return ok(views.html.publication.render(new ArrayList<Publication>()));
+        return ok(views.html.publication.render());
     }
 
     public CompletionStage<Result> getPublication(Long id) {
         return publicationRepository.get(id).thenApplyAsync(publicationStream -> {
-            return ok(views.html.singlepublication.render(publicationStream.collect(Collectors.toList())));
+            return ok(views.html.singlepublication.render(publicationStream.collect(Collectors.toList()).get(0)));
         }, ec.current());
     }
 
@@ -53,15 +53,21 @@ public class PublicationController extends Controller {
         }, ec.current());
     }
 
-    public CompletionStage<Result> getPublications() {
-        return publicationRepository.list().thenApplyAsync(publicationStream -> {
-            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
-        }, ec.current());
-    }
-
     public CompletionStage<Result> getPublicationsJson() {
         return publicationRepository.list().thenApplyAsync(publicationStream -> {
             return ok(toJson(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> getPublications() {
+        return publicationRepository.list().thenApplyAsync(publicationStream -> {
+            return ok(views.html.listpublications.render(publicationStream.collect(Collectors.toList())));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> searchPublications(String title) {
+        return publicationRepository.searchByTitle(title).thenApplyAsync(publicationStream -> {
+            return ok(views.html.listpublications.render(publicationStream.collect(Collectors.toList())));
         }, ec.current());
     }
 
@@ -72,12 +78,6 @@ public class PublicationController extends Controller {
         Publication publication = Json.fromJson(json, Publication.class);
         return publicationRepository.fullAdd(publication).thenApplyAsync(p -> {
             return redirect(routes.PublicationController.getPublications());
-        }, ec.current());
-    }
-
-    public CompletionStage<Result> searchPublications(String title) {
-        return publicationRepository.searchByTitle(title).thenApplyAsync(publicationStream -> {
-            return ok(views.html.publication.render(publicationStream.collect(Collectors.toList())));
         }, ec.current());
     }
 }

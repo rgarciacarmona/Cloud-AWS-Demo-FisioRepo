@@ -5,8 +5,8 @@
 
 <form method="POST" action="@routes.AuthorController.addAuthor()">
     @helper.CSRF.formField
-    Short Name: <input type="text" name="shortName"/><br />
-    Full Name: <input type="text" name="fullName"/><br />
+    Name: <input type="text" name="name"/><br />
+    Email: <input type="text" name="email"/><br />
     Affiliation: <input type="text" name="affiliation"/><br />
     <button>Add Author</button>
 </form>
