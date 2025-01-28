@@ -1,4 +1,4 @@
-# Fisio-Repo
+# FisioRepo
 
 This is a repository for physiotherapy papers intended to serve as an example for a Cloud Computing
 graduate course.
